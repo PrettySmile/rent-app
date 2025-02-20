@@ -35,7 +35,7 @@ export class UserController {
   @Post("/register")
   async register(@Body() dto: UserRegisterDto) {
     const user = await this.userService.register(dto);
-    return user;
+    return sendOk(user);
   }
 
   /**
@@ -45,6 +45,6 @@ export class UserController {
   @Post("/login")
   async login(@Body() dto: UserLoginDto) {
     const user = await this.userService.login(dto);
-    return user;
+    return sendOk(user);
   }
 }

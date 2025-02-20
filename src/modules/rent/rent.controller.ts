@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { RentService } from "./rent.service";
 import { RentDto } from "./dto/rent.dto";
+import { sendOk } from "../../response.util";
 
 @Controller("rent")
 export class RentController {
@@ -10,6 +11,6 @@ export class RentController {
   @Post()
   async rent(@Body() dto: RentDto) {
     const rent = await this.rentService.rent(dto);
-    return rent;
+    return sendOk(rent);
   }
 }
