@@ -11,3 +11,14 @@ export class CreateRentDto {
   startTime: Date;
   endTime: Date | null;
 }
+
+export class BookingDto {
+  name: string;
+  num: number;
+  bookingDate: Date; //date+time
+}
+
+// {
+//   name:"abc",
+
+// }

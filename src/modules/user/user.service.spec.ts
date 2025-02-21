@@ -7,14 +7,13 @@ import {
 } from "../../common/constants/test.constants";
 import User from "./user.entity";
 import { UserRepository } from "./user.repository";
-import {
-  DATA_SOURCE,
-  USER_REPOSITORY,
-} from "../../common/constants/database.constants";
+import { USER_REPOSITORY } from "../../common/constants/database.constants";
 import { DatabaseModule } from "../database/database.module";
 import { UserLoginDto, UserRegisterDto } from "./dto/user.dto";
+import { databaseProvider } from "../database/database.providers";
+import { EntityManager } from "typeorm";
 
-describe("ScooterController", () => {
+describe("ScooterService", () => {
   let service: UserService;
   let repository: jest.Mocked<UserRepository>;
 
@@ -36,22 +35,29 @@ describe("ScooterController", () => {
       imports: [
         {
           module: DatabaseModule,
-          providers: [
-            {
-              provide: DATA_SOURCE,
-              useValue: {
-                manager: {
-                  transaction: jest
-                    .fn()
-                    .mockImplementation(async (callback): Promise<any> => {
-                      return await callback(repository);
-                    }),
-                },
-              },
-            },
-          ],
+          providers: [...databaseProvider],
+          exports: [...databaseProvider],
         },
       ],
+      // imports: [
+      //   {
+      //     module: DatabaseModule,
+      //     providers: [
+      //       {
+      //         provide: DATA_SOURCE,
+      //         useValue: {
+      //           manager: {
+      //             transaction: jest
+      //               .fn()
+      //               .mockImplementation(async (callback): Promise<any> => {
+      //                 return await callback(repository);
+      //               }),
+      //           },
+      //         },
+      //       },
+      //     ],
+      //   },
+      // ],
       providers: [
         UserService,
         {
@@ -96,9 +102,15 @@ describe("ScooterController", () => {
       repository.getUserByAccount.mockResolvedValue(null);
       const result = await service.register(dto);
       expect(repository.getUserByAccount).toHaveBeenCalled();
-      // expect(repository.getUserByAccount).toHaveBeenCalledWith(dto.account);
+      expect(repository.getUserByAccount).toHaveBeenCalledWith(
+        dto.account,
+        expect.any(EntityManager),
+      );
       expect(repository.register).toHaveBeenCalled();
-      // expect(repository.register).toHaveBeenCalledWith(dto);
+      expect(repository.register).toHaveBeenCalledWith(
+        dto,
+        expect.any(EntityManager),
+      );
       expect(result).toEqual({ ...testUser1, id: 1 });
     });
   });

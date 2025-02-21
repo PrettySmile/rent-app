@@ -5,7 +5,7 @@ import Scooter from "./scooter.entity";
 import { ScooterRepository } from "./scooter.repository";
 import { SCOOTER_REPOSITORY } from "../../common/constants/database.constants";
 
-describe("ScooterController", () => {
+describe("ScooterService", () => {
   let service: ScooterService;
   let repository: jest.Mocked<ScooterRepository>;
 

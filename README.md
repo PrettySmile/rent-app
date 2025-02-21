@@ -15,6 +15,7 @@
 5. 使用 全域的錯誤處理器，保持乾淨的Controller
 6. 使用 sendOk()，保持API回傳一致性
 7. 使用 NestJS 單元測試 (@nestjs/testing)
+8. 使用 class-validator 及 class-transformer ，檢查參數型別
 
 ## API說明
 ### User
@@ -58,13 +59,17 @@ npm run db:run
 ```
 
 ## Run tests
+### 全部測試
 ```bash
 # unit tests
 $ npm run test
 ```
-為測試項目新增 .only 可測試單一方法。
-
-如：describe.only / it.only。
+### 單檔測試
+```
+npx jest user.service.spec.ts
+```
+備註：
+為測試項目新增 .only 可測試單一方法。(如：describe.only / it.only。)
 
 ## 新增 DB Migration
 ```

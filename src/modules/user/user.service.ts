@@ -34,11 +34,6 @@ export class UserService {
         manager,
       );
       if (isAccountExist) throw new ApplicationError("errors.A006");
-      // const user = new User();
-      // user.name = dto.name;
-      // user.email = dto.email;
-      // user.account = dto.account;
-      // user.password = dto.password;
       return await this.userRepository.register(dto, manager);
     });
   }
